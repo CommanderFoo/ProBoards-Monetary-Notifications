@@ -1,0 +1,23 @@
+div.yootil-notifications-item.yootil-notifications-ps4 {
+
+    background-color: #454e4d !important;
+    left: -10px !important;
+    right: auto !important;
+    padding: 2px !important;
+    opacity: .95;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-ps4 div.yootil-notifications-wrapper {
+
+    background-color: #040506 !important;
+    color: #777879 !important;
+    padding: 10px !important;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-ps4 .yootil-notifications-image {
+
+    margin-left: 10px !important;
+
+}
