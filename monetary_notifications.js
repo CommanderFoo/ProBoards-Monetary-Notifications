@@ -20,10 +20,13 @@ $(function(){
 						before: function(notification){
 							if(notification.m.match(/^\[D:([\d\,]+)\|(\d+)\|(.+?)\]$/)){
 								notification.m = "You have recevied a donation of " + monetary.settings.money_symbol + monetary.format(RegExp.$1) + " from <a href='/user/" + (~~ RegExp.$2) + "'>" + RegExp.$3 + "</a>.";
-							} else if(notification.m.match(/^\[T:(\d+)\|(.+?)\]$/)){
-								notification.m = "You have recevied a trade request from <a href='/user/" + (~~ RegExp.$2) + "'>" + RegExp.$3 + "</a>.";
-							} else if(notification.m.match(/^\[TG:(\d+)\|(.+?)\]$/)){
-								notification.m = "You have recevied a gift from <a href='/user/" + (~~ RegExp.$2) + "'>" + RegExp.$3 + "</a>.";
+							} else if(notification.m.match(/^\[T:(\d+)\|(\d+)\|(.+?)\]$/)){
+								notification.m = "You have recevied a " + ((RegExp.$1 == 0)? "gift" : "trade request") + " from <a href='/user/" + (~~ RegExp.$2) + "'>" + RegExp.$3 + "</a>.";
+							} else if(notification.m.match(/^\[TAR:(\d)\|(\d+)\|(.+?)\]$/)){
+								var type = (RegExp.$1 == 1 || RegExp.$1 == 2)? "gift" : "trade request";
+								var status = (RegExp.$1 >= 2)? "accepted" : "rejected";
+
+								notification.m = "<a href='/user/" + (~~ RegExp.$2) + "'>" + RegExp.$3 + "</a> " + status + " your " + type + ".";
 							}
 
 							return notification;
