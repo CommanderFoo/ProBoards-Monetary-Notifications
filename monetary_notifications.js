@@ -26,7 +26,7 @@ $(function(){
 			init: function(){
 				this.setup();
 
-				if(this.plugin && typeof yootil != "undefined" && typeof yootil.notifications != "undefined"){
+				if(this.plugin && typeof yootil != "undefined" && typeof yootil.notifications != "undefined" && typeof monetary != "undefined"){
 					var self = this;
 
 					new yootil.notifications(this.key, this.settings.notification_template, this.theme).show({
