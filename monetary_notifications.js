@@ -17,7 +17,9 @@ $(function(){
 				gift: "gift",
 				received: "received",
 				trade: "trade",
-				request: "request"
+				request: "request",
+				wallet: "wallet",
+				bank: "bank"
 
 			},
 
@@ -32,29 +34,78 @@ $(function(){
 						// Parse messages.  We keep the msg stored as small as possible and expand it before showing
 
 						before: function(notification){
-							if(notification.m.match(/^\[D:([\d\,\.]+)\|(\d+)\|(.+?)\]$/)){
+
+							// Donation received
+
+							if(notification.m.match(/^\[D:([\d,\.]+)\|(\d+)\|(.+?)\]$/)){
+								var amount = RegExp.$1;
 								var user_id = (~~ RegExp.$2);
 								var name = yootil.html_encode(RegExp.$3, true);
-								var amount = yootil.number_format(monetary.format(RegExp.$1, true));
 
-								notification.m = "You have " + self.text.received + " a " + self.text.donation + " of " + monetary.settings.money_symbol + amount + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
-							} else if(notification.m.match(/^\[DA:(\d+)\|(.+?)\]$/)){
-								var user_id = (~~ RegExp.$1);
-								var name = yootil.html_encode(RegExp.$2, true);
+								notification.m = "You have " + self.text.received + " a " + self.text.donation + " of " + monetary.settings.money_symbol + yootil.number_format(monetary.format(amount, true)) + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
 
-								notification.m = "<a href='/user/" + user_id + "'>" + name + "</a> " + self.text.accepted + " your " + self.text.donation + ".";
+							// Donation accepted.
+
+							} else if(notification.m.match(/^\[DA:([\d,\.]+)\|(\d+)\|(.+?)\]$/)){
+								var amount = RegExp.$1;
+								var user_id = (~~ RegExp.$2);
+								var name = yootil.html_encode(RegExp.$3, true);
+
+								notification.m = "<a href='/user/" + user_id + "'>" + name + "</a> " + self.text.accepted + " your " + self.text.donation + " of " +  monetary.settings.money_symbol + yootil.number_format(monetary.format(amount, true)) + ".";
+
+							// Trade request / gift received
+
 							} else if(notification.m.match(/^\[T:(\d+)\|(\d+)\|(.+?)\]$/)){
 								var user_id = (~~ RegExp.$2);
 								var name = yootil.html_encode(RegExp.$3, true);
 
 								notification.m = "You have " + self.text.received + " a " + ((RegExp.$1 == 0)? self.text.gift : (self.text.trade + " " + self.text.request)) + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
+
+							// Trade accetped / rejected
+
 							} else if(notification.m.match(/^\[TAR:(\d)\|(\d+)\|(.+?)\]$/)){
-								var type = (RegExp.$1 == 1 || RegExp.$1 == 2)? self.text.gift : (self.text.trade + " " + self.text.request);
-								var status = (RegExp.$1 >= 2)? self.text.accepted : self.text.rejected;
+								var type = (RegExp.$1 == 1 || RegExp.$1 == 2) ? self.text.gift : (self.text.trade + " " + self.text.request);
+								var status = (RegExp.$1 >= 2) ? self.text.accepted : self.text.rejected;
 								var user_id = (~~ RegExp.$2);
 								var name = yootil.html_encode(RegExp.$3, true);
 
 								notification.m = "<a href='/user/" + user_id + "'>" + name + "</a> " + status + " your " + type + ".";
+
+							// Money / Bank edited
+
+							} else if(notification.m.match(/^\[ME:(\d)\|([\d,\.]+)\|(\d)\|(\d+)\|(.+?)\]$/)){
+								var user = "";
+								var type = (RegExp.$1 == 2)? (self.text.bank + " account") : self.text.wallet;
+								var new_money = RegExp.$2;
+								var action_type = RegExp.$3;
+								var user_id = (~~ RegExp.$4);
+								var name = RegExp.$5;
+								var msg = "Your " + type + " was ";
+
+								if(monetary.settings.notification.show_edited){
+									user = " by <a href='/user/" + user_id + "'>" + yootil.html_encode(name, true) + "</a>";
+								}
+
+								switch(~~ action_type){
+
+									case 3:
+										msg += "increased by ";
+										break;
+
+									case 4:
+										msg += "decreased by ";
+										break;
+
+									case 1:
+									case 2:
+										msg += "set to ";
+										break;
+								}
+
+
+								msg += "<strong>" + monetary.settings.money_symbol + yootil.number_format(monetary.format(new_money, true)) + "</strong>" + user + ".";
+
+								notification.m = msg;
 							} else {
 								notification.m = yootil.html_encode(notification.m); // Just in case users inject messages.
 							}
@@ -77,6 +128,8 @@ $(function(){
 					this.text.received = monetary.shop.trade.settings.text.received.toLowerCase();
 					this.text.trade = monetary.shop.trade.settings.text.trade.toLowerCase();
 					this.text.request = monetary.shop.trade.settings.text.request.toLowerCase();
+					this.text.wallet = monetary.settings.text.wallet.toLowerCase();
+					this.text.bank = monetary.bank.settings.text.bank.toLowerCase();
 				}
 			}
 
