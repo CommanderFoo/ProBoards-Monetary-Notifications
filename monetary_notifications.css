@@ -1,23 +1,101 @@
+/** PS4 theme **/
+
 div.yootil-notifications-item.yootil-notifications-ps4 {
 
-    background-color: #454e4d !important;
-    left: -10px !important;
-    right: auto !important;
-    padding: 2px !important;
-    opacity: .95;
+	background-color: #454e4d !important;
+	left: -10px !important;
+	right: auto !important;
+	padding: 2px !important;
+	opacity: .95;
 
 }
 
 div.yootil-notifications-item.yootil-notifications-ps4 div.yootil-notifications-wrapper {
 
-    background-color: #040506 !important;
-    color: #777879 !important;
-    padding: 10px !important;
+	background-color: #040506 !important;
+	color: #777879 !important;
+	padding: 10px !important;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-ps4 a {
+
+	color: #9C9C9C !important;
 
 }
 
 div.yootil-notifications-item.yootil-notifications-ps4 .yootil-notifications-image {
 
-    margin-left: 10px !important;
+	margin-left: 10px !important;
+
+}
+
+/** Xbox theme **/
+
+div.yootil-notifications-item.yootil-notifications-xbox {
+
+	background-color: #484745 !important;
+	right: 10px !important;
+	padding: 4px !important;
+	opacity: .95;
+	border-radius: 40px;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-xbox div.yootil-notifications-wrapper {
+
+	background-color: #2C2827 !important;
+	color: #B1B0AE !important;
+	padding: 15px !important;
+	border-radius: 40px;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-xbox .yootil-notifications-image {
+
+	margin-left: 10px !important;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-xbox a {
+
+	color: #8E8E8E !important;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-xbox div.yootil-notifications-message {
+
+	font-size: 110% !important;
+
+}
+
+/** Simple theme **/
+
+div.yootil-notifications-item.yootil-notifications-simple {
+
+	background-color: #fff !important;
+	right: 10px !important;
+	padding: 0px !important;
+	opacity: 1;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-simple div.yootil-notifications-wrapper {
+
+	background-color: #fff !important;
+	color: #000 !important;
+	padding: 3px !important;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-simple .yootil-notifications-image {
+
+	display: none;
+
+}
+
+div.yootil-notifications-item.yootil-notifications-simple a {
+
+	color: #000 !important;
 
 }

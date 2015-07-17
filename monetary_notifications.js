@@ -7,7 +7,7 @@ $(function(){
 			key: "monetary_notifications",
 			plugin: null,
 			settings: null,
-			theme: 1,
+			theme: null,
 
 			text: {
 
@@ -29,7 +29,7 @@ $(function(){
 				if(this.plugin && typeof yootil != "undefined" && typeof yootil.notifications != "undefined"){
 					var self = this;
 
-					new yootil.notifications(this.key, this.settings.notification_template).show({
+					new yootil.notifications(this.key, this.settings.notification_template, this.theme).show({
 
 						// Parse messages.  We keep the msg stored as small as possible and expand it before showing
 
@@ -121,6 +121,24 @@ $(function(){
 			setup: function(){
 				this.plugin = pb.plugin.get(this.key);
 				this.settings = (this.plugin && this.plugin.settings)? this.plugin.settings : false;
+
+				if((~~ this.settings.notification_theme) > 0){
+					switch(~~ this.settings.notification_theme){
+
+						case 2 :
+							this.theme = "ps4";
+							break;
+
+						case 3 :
+							this.theme = "xbox";
+							break;
+
+						case 4 :
+							this.theme = "simple";
+							break;
+
+					}
+				}
 
 				if(typeof monetary.shop != "undefined"){
 					this.text.donation = monetary.donation.settings.text.donation.toLowerCase();
