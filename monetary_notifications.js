@@ -27,6 +27,13 @@ $(function(){
 				this.setup();
 
 				if(this.plugin && typeof yootil != "undefined" && typeof yootil.notifications != "undefined" && typeof monetary != "undefined"){
+
+					// Check monetary version is 0.9.0 or greater
+
+					if(yootil.convert_versions(monetary.version())[0] < 090){
+						return;
+					}
+
 					var self = this;
 
 					new yootil.notifications(this.key, this.settings.notification_template, this.theme).show({
@@ -42,7 +49,7 @@ $(function(){
 								var user_id = (~~ RegExp.$2);
 								var name = yootil.html_encode(RegExp.$3, true);
 
-								notification.m = "You have " + self.text.received + " a " + self.text.donation + " of " + monetary.settings.money_symbol + yootil.number_format(monetary.format(amount, true)) + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
+								notification.m = "You have " + self.text.received + " a <a href='/user/" + yootil.user.id() + "?monetarydonation&view=2'>" + self.text.donation + "</a> of " + monetary.settings.money_symbol + yootil.number_format(monetary.format(amount, true)) + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
 
 							// Donation accepted.
 
@@ -59,7 +66,7 @@ $(function(){
 								var user_id = (~~ RegExp.$2);
 								var name = yootil.html_encode(RegExp.$3, true);
 
-								notification.m = "You have " + self.text.received + " a " + ((RegExp.$1 == 0)? self.text.gift : (self.text.trade + " " + self.text.request)) + " from <a href='/user/" + user_id + "'>" + name + "</a>.";
+								notification.m = "You have " + self.text.received + " a <a href='/user/" + yootil.user.id() + "?monetaryshop&tradeview=1'>" + ((RegExp.$1 == 0)? self.text.gift : (self.text.trade + " " + self.text.request)) + "</a> from <a href='/user/" + user_id + "'>" + name + "</a>.";
 
 							// Trade accetped / rejected
 
@@ -112,6 +119,10 @@ $(function(){
 
 							return notification;
 						}
+
+					}, {
+
+						hide_speed: "slow"
 
 					});
 				}
