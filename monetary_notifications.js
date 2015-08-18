@@ -23,6 +23,13 @@ $(function(){
 
 			},
 
+			show_effect: 1,
+			show_speed: .4,
+			show_delay: 0,
+			hide_effect: 1,
+			hide_speed: .6,
+			hide_delay: 3.5,
+
 			init: function(){
 				this.setup();
 
@@ -122,12 +129,35 @@ $(function(){
 
 					}, {
 
-						hide_speed: "slow"
+						show_effect: this.get_effect(this.show_effect),
+						show_speed: (this.show_speed * 1000),
+						show_delay: (this.show_delay * 1000),
+
+						hide_effect: this.get_effect(this.hide_effect, true),
+						hide_speed: (this.hide_speed * 1000),
+						hide_delay: (this.hide_delay * 1000),
 
 					});
 				}
 			},
 
+			get_effect: function(opt, out){
+				var effect = "";
+
+				switch(~~ opt){
+
+					case 1 :
+						return "fade" + ((out)? "Out" : "In");
+
+					case 2 :
+						return "slideDown";
+
+					case 3 :
+						return "slideUp";
+
+				}
+
+			},
 
 			setup: function(){
 				this.plugin = pb.plugin.get(this.key);
@@ -150,6 +180,14 @@ $(function(){
 
 					}
 				}
+
+				this.show_effect = (parseFloat(this.settings.show_effect) > 0)? parseFloat(this.settings.show_effect) : this.show_effect;
+				this.show_speed = (parseFloat(this.settings.show_speed) > 0)? parseFloat(this.settings.show_speed) : this.show_speed;
+				this.show_delay = (parseFloat(this.settings.show_delay) > 0)? parseFloat(this.settings.show_delay) : this.show_delay;
+
+				this.hide_effect = (parseFloat(this.settings.hide_effect) > 0)? parseFloat(this.settings.hide_effect) : this.hide_effect;
+				this.hide_speed = (parseFloat(this.settings.hide_speed) > 0)? parseFloat(this.settings.hide_speed) : this.hide_speed;
+				this.hide_delay = (parseFloat(this.settings.hide_delay) > 0)? parseFloat(this.settings.hide_delay) : this.hide_delay;
 
 				if(typeof monetary.shop != "undefined"){
 					this.text.donation = monetary.donation.settings.text.donation.toLowerCase();
